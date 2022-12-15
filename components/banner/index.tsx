@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useCallback, useContext } from 'react';
-import Slider from '@components/slider';
 import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 import { UserContext } from '@layouts/User';
 import useAxios from 'axios-hooks';
 import requests from '@utils/requests';
+import { ImageBox, SliderContainer, Image, ImageWrapper } from './styles';
+import { TMDB_BASE_IMG_URL } from '@constants/tmdb';
+
 
 const Banner = () => {
   const context = useContext(UserContext);
@@ -32,7 +34,17 @@ const Banner = () => {
 
   return (
     <div style={{ marginBottom: '30px' }}>
-      <Slider translateValue={translateValue} bannerData={bannerData} />
+    <SliderContainer>
+      <ImageBox translateValue={translateValue !== 0 ? translateValue : null}>
+        {bannerData?.results.map((banner: any) => {
+          return (
+            <ImageWrapper>
+              <Image src={`${TMDB_BASE_IMG_URL}${banner.backdrop_path}`} />
+            </ImageWrapper>
+            )
+        })}
+      </ImageBox>
+    </SliderContainer>
     </div>
   );
 };

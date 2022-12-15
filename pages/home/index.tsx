@@ -8,6 +8,7 @@ import requests from '@utils/requests';
 import Carousel2 from '@components/carousel2';
 import NetflixRow from '@components/netflix-row';
 import CarouselTwo from '@components/carousel2';
+import styled from 'styled-components';
 
 const Home = React.memo(() => {
   // const { data: userData, mutate: revalidateUser } = useSWR(
@@ -43,7 +44,8 @@ const Home = React.memo(() => {
     <div>
       <Outlet />
       <Banner />
-      
+      <Container>
+
       {pageNum > 0 && (
         <>
         <NetflixRow title={'달달한 코미디2'} request = {requests.fetchComedy} />
@@ -60,12 +62,18 @@ const Home = React.memo(() => {
       )}
       {/* {pageNum > 2 && (
         <>
-          <Carousel from={'/home'} header={'힐링의 음악 컨텐츠'} category={'category_movie'} genre_id={'18'} /> 
-           <Carousel from={'/home'} header={'빠질 수 없는 아메리카'} category={'_'} genre_id={'18'} country={'미국'} /> 
+        <Carousel from={'/home'} header={'힐링의 음악 컨텐츠'} category={'category_movie'} genre_id={'18'} /> 
+        <Carousel from={'/home'} header={'빠질 수 없는 아메리카'} category={'_'} genre_id={'18'} country={'미국'} /> 
         </>
       )} */}
+      </Container>
     </div>
   );
 });
 
 export default Home;
+
+const Container = styled.div`
+  margin-top: -300px;
+
+`
