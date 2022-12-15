@@ -3,14 +3,12 @@ import Slider from '@components/slider';
 import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 import { UserContext } from '@layouts/User';
+import useAxios from 'axios-hooks';
+import requests from '@utils/requests';
 
 const Banner = () => {
   const context = useContext(UserContext);
-  const userNo = context?.userData.user.uNo;
-  const { data: bannerData } = useSWR(
-    `${process.env.REACT_APP_SERVICE_PORT}/movie/popular_movie?userNo=${userNo}`,
-    fetcher,
-  );
+  const [{data:bannerData}] = useAxios(requests.fetchNetFlixOriginal)
 
   const [translateValue, setTranslateValue] = useState<number>(0);
 
@@ -30,6 +28,7 @@ const Banner = () => {
       clearInterval(imageInterval);
     };
   }, [translateValue]);
+
 
   return (
     <div style={{ marginBottom: '30px' }}>

@@ -1,6 +1,8 @@
-import Carousel from '@components/carousel';
+
+import NetflixRow from '@components/netflix-row';
 import Detail from '@pages/detail';
 import category from '@utils/category';
+import requests from '@utils/requests';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Category, Container, StyledCategory } from './styles';
@@ -86,21 +88,18 @@ const CategoryDepartment = React.memo(() => {
       <div>
         {pageNum > 0 && (
           <>
-            <Carousel from={'/movie'} header={'인기 순위'} category={'popular_movie'} genre_id={''} />
-            <Carousel from={'/movie'} header={'SF 모여라'} category={'category_movie'} genre_id={'878'} />
+            <NetflixRow title={'달달한 코미디2'} request = {requests.fetchComedy} />
+            <NetflixRow title={'달달한 코미디2'} request = {requests.fetchComedy} />
+
+            {/* <Carousel from={'/movie'} header={'SF 모여라'} category={'category_movie'} genre_id={'878'} /> */}
           </>
         )}
         {pageNum > 1 && (
           <>
-            <Carousel from={'/movie'} header={'달달한 로맨스'} category={'category_movie'} genre_id={'10749'} />
-            <Carousel from={'/movie'} header={'힐링의 음악 컨텐츠'} category={'category_movie'} genre_id={'18'} />
+            <NetflixRow title={'달달한 코미디2'} request = {requests.fetchComedy} />
+            <NetflixRow title={'달달한 코미디2'} request = {requests.fetchComedy} />
           </>
         )}
-        {/* {pageNum > 2 && 
-            <>
-                
-            
-            </>} */}
       </div>
     </Container>
   );

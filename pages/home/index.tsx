@@ -1,6 +1,5 @@
 import Banner from '@components/banner';
 import useSWR from 'swr';
-import Carousel from '@components/carousel';
 import React, { useEffect, useState } from 'react';
 
 import { Link, Navigate, Outlet } from 'react-router-dom';
@@ -43,7 +42,7 @@ const Home = React.memo(() => {
   return (
     <div>
       <Outlet />
-      {/* <Banner /> */}
+      <Banner />
       
       {pageNum > 0 && (
         <>

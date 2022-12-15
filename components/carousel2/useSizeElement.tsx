@@ -9,7 +9,7 @@ const useSizeElement = () => {
     if (elementRef.current) {
       setWidth(elementRef.current.clientWidth);
     }
-  }, [elementRef]);
+  }, [elementRef?.current]);
 
   return { width, elementRef };
 };
