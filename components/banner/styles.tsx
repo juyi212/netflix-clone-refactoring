@@ -22,7 +22,7 @@ export const ImageBox = styled.div<ImageBoxProps>`
 export const Image = styled.img`
   width: 100vw;
   height: 100vh;
-  z-index: -4;
+  z-index: -100;
   object-fit: cover;
   object-position: center center;
   opacity: 0.4;
@@ -30,7 +30,7 @@ export const Image = styled.img`
 
 export const ImageWrapper = styled.div`
   height: 120vh;
-  z-index: -3;
+  z-index: -6;
   background-color: black;
   background-repeat: no-repeat;
   background-size: cover;

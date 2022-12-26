@@ -9,14 +9,13 @@ import { TMDB_BASE_IMG_URL } from '@constants/tmdb';
 
 
 const Banner = () => {
-  const context = useContext(UserContext);
   const [{data:bannerData}] = useAxios(requests.fetchNetFlixOriginal)
-
   const [translateValue, setTranslateValue] = useState<number>(0);
+  const list = document.querySelector('.slider');
 
   const moveRight = useCallback(() => {
     setTranslateValue((prev) => {
-      if (translateValue !== 100 * (bannerData?.length - 1)) {
+      if (translateValue !== 100 * (bannerData?.results.length - 1)) {
         return prev + 100;
       } else return 0;
     });
@@ -35,7 +34,7 @@ const Banner = () => {
   return (
     <div style={{ marginBottom: '30px' }}>
     <SliderContainer>
-      <ImageBox translateValue={translateValue !== 0 ? translateValue : null}>
+      <ImageBox className= "slider" translateValue={translateValue }>
         {bannerData?.results.map((banner: any) => {
           return (
             <ImageWrapper>

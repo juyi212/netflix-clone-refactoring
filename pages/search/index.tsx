@@ -6,7 +6,6 @@ import axios from 'axios';
 const Search = React.memo(() => {
   const [searchInput] = useSearchParams();
   let search = searchInput.get('input');
-  console.log(location.pathname);
   const [mySearch, setMySearch] = useState([]);
 
   useEffect(() => {

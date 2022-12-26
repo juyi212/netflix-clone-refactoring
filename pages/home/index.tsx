@@ -1,14 +1,31 @@
 import Banner from '@components/banner';
 import useSWR from 'swr';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { Link, Navigate, Outlet } from 'react-router-dom';
-import userfetcher from '@utils/userfetcher';
+import { Outlet } from 'react-router-dom';
 import requests from '@utils/requests';
-import Carousel2 from '@components/carousel2';
 import NetflixRow from '@components/netflix-row';
-import CarouselTwo from '@components/carousel2';
 import styled from 'styled-components';
+import useInfiniteScroll from '../../utils/useInfiniteScroll';
+
+interface carouselListType {
+  title: string, 
+  request: string,
+}
+
+const carouselList: carouselListType[] = [
+  { title: '달달한 코미디', request: requests.fetchComedy},
+  { title: '지금 뜨고 컨텐츠', request: requests.fetchDocumentaries},
+  { title: '우아아아', request: requests.fetchHorror},
+  { title: '으아아', request: requests.fetchTrending},
+  { title: '달달한 코미디2', request: requests.fetchTopRated},
+  { title: '달달한 코미디3', request: requests.fetchComedy},
+  { title: '달달한 코미디3', request: requests.fetchComedy},
+  { title: '달달한 코미디3', request: requests.fetchComedy},
+  
+  
+  
+]
 
 const Home = React.memo(() => {
   // const { data: userData, mutate: revalidateUser } = useSWR(
@@ -16,7 +33,19 @@ const Home = React.memo(() => {
   //   userfetcher,
   //   { refreshInterval: 5000 },
   // );
+  const [array, setArray] = useState<Array<carouselListType>>([]);
+
+  const target = useRef<HTMLDivElement>(null)
   const [pageNum, setPageNum] = useState(1);
+  const [isLoading, setIsLoading] = useState(true)
+
+  const { count } = useInfiniteScroll({
+    target: target,
+    targetArray: array,
+    threshold: 0.25,
+    endPoint: 4
+  });
+  console.log(count)
 
   const handleScroll = () => {
     const scrollHeight = document.documentElement.scrollHeight;
@@ -27,15 +56,32 @@ const Home = React.memo(() => {
     }
   };
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    if (pageNum > 2) {
-      window.removeEventListener('scroll', handleScroll);
-    }
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [pageNum]);
+
+  
+    useEffect(() => {
+      // API 호출 부분 - 실제로는 count를 이용해 API를 호출
+      setIsLoading(true);
+      setTimeout(() => {
+        setArray([...array, ...carouselList]);
+        setIsLoading(false);
+      }, 1000);
+      console.log(array)
+    }, [count]);
+
+    // useEffect(() => {
+    //   setArray(carouselList)
+    // },[count])
+  
+
+  // useEffect(() => {
+  //   window.addEventListener('scroll', handleScroll);
+  //   if (pageNum > 2) {
+  //     window.removeEventListener('scroll', handleScroll);
+  //   }
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, [pageNum]);
 
   // if (!userData) {
   //   return <Navigate replace to="/login" />;
@@ -44,29 +90,25 @@ const Home = React.memo(() => {
     <div>
       <Outlet />
       <Banner />
-      <Container>
+      <div>
 
-      {pageNum > 0 && (
+      <Container ref={target}>      
+        {
+          array.map((list:carouselListType) => (
+            <NetflixRow title={list.title} request={list.request} />
+            ))
+          }
+      </Container>
+      {isLoading && <div>로딩중!!!!!!!!!!!!!!!!!!!!!</div>}
+      </div>
+      
+      {/* {pageNum > 0 && (
         <>
         <NetflixRow title={'달달한 코미디2'} request = {requests.fetchComedy} />
         <NetflixRow title={'지금 뜨고 컨텐츠'} request = {requests.fetchTrending} />
         </>
         )
-      }      
-              
-      {pageNum > 1 && (
-        <>
-        <NetflixRow title={'호러..홀뤼'} request = {requests.fetchHorror} />
-        <NetflixRow title={'귀여운 애니'} request = {requests.fetchAnime} />
-        </>
-      )}
-      {/* {pageNum > 2 && (
-        <>
-        <Carousel from={'/home'} header={'힐링의 음악 컨텐츠'} category={'category_movie'} genre_id={'18'} /> 
-        <Carousel from={'/home'} header={'빠질 수 없는 아메리카'} category={'_'} genre_id={'18'} country={'미국'} /> 
-        </>
-      )} */}
-      </Container>
+      }       */}
     </div>
   );
 });
@@ -74,6 +116,5 @@ const Home = React.memo(() => {
 export default Home;
 
 const Container = styled.div`
-  margin-top: -300px;
-
+  margin-top: -250px;
 `

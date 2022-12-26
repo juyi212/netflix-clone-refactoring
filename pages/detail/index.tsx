@@ -65,8 +65,8 @@ const Detail = React.memo(() => {
           `${process.env.REACT_APP_SERVICE_PORT}/user/delete_movie_zzim?movieId=${movieId}&userNo=${context.userData?.user.uNo}`,
         )
         .then((res) => {
-          console.log(res.data);
-          console.log(zzim);
+          
+          
           mutate();
         })
         .catch((err) => {
@@ -79,7 +79,7 @@ const Detail = React.memo(() => {
           `${process.env.REACT_APP_SERVICE_PORT}/user/insert_movie_zzim?movieId=${movieId}&userNo=${context.userData?.user.uNo}`,
         )
         .then((res) => {
-          console.log(res.data);
+          
           mutate();
         })
         .catch((err) => {
